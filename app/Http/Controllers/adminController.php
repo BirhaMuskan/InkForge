@@ -303,7 +303,7 @@ public function destroy($id)
             }
 
             return redirect()
-                ->back()
+                ->route('products')
                 ->with('success', 'Base product saved successfully!')
                 ->with('product_id', $product->id);
         });

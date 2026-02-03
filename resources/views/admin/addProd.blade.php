@@ -133,7 +133,7 @@
                     <div class="form-group mb-3">
                       <label class="form-label">Product Name <span class="text-danger">*</span></label>
                       <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"
-                             placeholder="e.g. Unisex T-Shirt / Hoodie / Mug" required>
+                             placeholder="e.g. Unisex T-Shirt / Hoodie / Mug" >
                              <div class="invalid-feedback">Product name is required.</div>
      @error('name')
 <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -158,7 +158,7 @@
                   <div class="col-md-6">
                     <div class="form-group mb-3">
                       <label class="form-label">Category <span class="text-danger">*</span></label>
-                      <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
+                      <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" >
                         <option value="">-- Select Category --</option>
                         @foreach($categories as $c)
                           <option value="{{ $c->id }}" {{ old('category_id') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
@@ -176,7 +176,7 @@
                     <div class="form-group mb-3">
                       <label class="form-label">Base Cost (Product Base Price) <span class="text-danger">*</span></label>
                       <input type="number" class="form-control @error('base_price') is-invalid @enderror" name="base_price" step="0.01" min="0" value="{{ old('base_price') }}"
-                             placeholder="0.00" required>
+                             placeholder="0.00" >
                       <div class="invalid-feedback">Base Cost is required.</div>
                       @error('base_price')
 <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -322,7 +322,7 @@
       <tr>
         <td>
           <input type="text" name="variants[{{ $i }}][sku]" class="form-control @error('variants.$i.sku') is-invalid @enderror"
-                 value="{{ $v['sku'] }}" placeholder="TSHIRT-BLK-M" required>
+                 value="{{ $v['sku'] }}" placeholder="TSHIRT-BLK-M" >
                  <div class="invalid-feedback">SKU is required.</div>
           @error("variants.$i.sku")
             <div class="invalid-feedback">{{ $message }}</div>
@@ -393,7 +393,7 @@
       <tr>
         <td>
           <input type="text" name="images[{{ $i }}][image_url]" class="form-control @error('images.$i.image_url') is-invalid @enderror"
-                 value="{{ $img['image_url'] }}" placeholder="https://..." required>
+                 value="{{ $img['image_url'] }}" placeholder="https://..." >
                  <div class="invalid-feedback">Image URL is required.</div>
           @error("images.$i.image_url")
             <div class="invalid-feedback">{{ $message }}</div>
@@ -709,7 +709,7 @@
     <!--! END: Vendors JS !-->
     <!--! BEGIN: Apps Init  !-->
     <script src="{{asset('adminAssets/js/common-init.min.js')}}"></script>
-    <script src="{{asset('adminAssets/js/invoice-create-init.min.js')}}"></script>
+
     <!--! END: Apps Init !-->
     <!--! BEGIN: Theme Customizer  !-->
     <script src="{{asset('adminAssets/js/theme-customizer-init.min.js')}}"></script>
@@ -725,7 +725,7 @@ document.body.addEventListener('click', function(e) {
         const tbody = document.querySelector('#variantsTable tbody');
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><input class="form-control" name="variants[${variantIndex}][sku]" required></td>
+            <td><input class="form-control" name="variants[${variantIndex}][sku]" ></td>
             <td><input class="form-control" name="variants[${variantIndex}][color_name]"></td>
             <td><input class="form-control" name="variants[${variantIndex}][color_hex]" placeholder="#000000"></td>
             <td><input class="form-control" name="variants[${variantIndex}][size]"></td>
@@ -745,7 +745,7 @@ document.getElementById('addImage').addEventListener('click', function () {
     const tbody = document.querySelector('#imagesTable tbody');
     const row = document.createElement('tr');
     row.innerHTML = `
-        <td><input class="form-control" name="images[${imageIndex}][image_url]" required></td>
+        <td><input class="form-control" name="images[${imageIndex}][image_url]" ></td>
         <td>
             <select class="form-control" name="images[${imageIndex}][image_type]">
                 <option value="mockup">mockup</option>
