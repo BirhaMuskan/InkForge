@@ -10,7 +10,7 @@
     <meta name="author" content="theme_ocean">
     <!--! The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags !-->
     <!--! BEGIN: Apps Title-->
-    <title>Duralux || Invoice View</title>
+    <title>Duralux || Invoice Create</title>
     <!--! END:  Apps Title-->
     <!--! BEGIN: Favicon-->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('adminAssets/images/favicon.ico')}}">
@@ -20,6 +20,9 @@
     <!--! END: Bootstrap CSS-->
     <!--! BEGIN: Vendors CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/vendors/css/vendors.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/vendors/css/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/vendors/css/select2-theme.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/vendors/css/datepicker.min.css')}}">
     <!--! END: Vendors CSS-->
     <!--! BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/css/theme.min.css')}}">
@@ -30,127 +33,22 @@
 			<script src="https:oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 			<script src="https:oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
-        
 </head>
+
+<body>
     @include('admin.sidebar')
 
-
-<style>
-   
-
-    .container {
-        max-width: 1200px;
-        margin: auto;
-    }
-
-    h1 {
-        font-size: 26px;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        font-size: 16px;
-        margin-bottom: 10px;
-        color: #111827;
-    }
-
-    .card {
-        background: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 8px 24px rgba(0,0,0,.05);
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-    }
-
-    .info p {
-        margin: 6px 0;
-        font-size: 14px;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-    }
-
-    .badge-success { background: #e6f7ef; color: #059669; }
-    .badge-danger { background: #fee2e2; color: #dc2626; }
-    .badge-primary { background: #e0e7ff; color: #4338ca; }
-
-    ul {
-        padding-left: 18px;
-        margin: 0;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
-    }
-
-    th, td {
-        padding: 10px;
-        border-bottom: 1px solid #e5e7eb;
-        text-align: left;
-    }
-
-    th {
-        background: #f9fafb;
-        font-weight: 600;
-    }
-
-    .image-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
-
-    .image-grid img {
-        width: 100%;
-        height: 90px;
-        object-fit: cover;
-        border-radius: 8px;
-        border: 1px solid #e5e7eb;
-    }
-
-    .section {
-        margin-top: 30px;
-    }
-
-    .stat {
-        font-size: 14px;
-        margin-bottom: 6px;
-    }
-
-    @media (max-width: 900px) {
-        .grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-    <!--! ================================================================ !-->
-    <!--! ================================================================ !-->
-    <!--! [Start] Main Content !-->
-    <!--! ================================================================ !-->
     <main class="nxl-container">
         <div class="nxl-content">
             <!-- [ page-header ] start -->
             <div class="page-header">
                 <div class="page-header-left d-flex align-items-center">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Product</h5>
+                        <h5 class="m-b-10">Add Product</h5>
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item">View</li>
+                        <li class="breadcrumb-item">Create</li>
                     </ul>
                 </div>
                 <div class="page-header-right ms-auto">
@@ -162,155 +60,106 @@
                             </a>
                         </div>
                         <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
-                          
-                            <div class="dropdown">
-                                <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10" data-bs-auto-close="outside">
-                                    <i class="feather-paperclip"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="bi bi-filetype-pdf me-3"></i>
-                                        <span>PDF</span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="bi bi-filetype-csv me-3"></i>
-                                        <span>CSV</span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="bi bi-filetype-xml me-3"></i>
-                                        <span>XML</span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="bi bi-filetype-txt me-3"></i>
-                                        <span>Text</span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="bi bi-filetype-exe me-3"></i>
-                                        <span>Excel</span>
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="bi bi-printer me-3"></i>
-                                        <span>Print</span>
-                                    </a>
-                                </div>
-                            </div>
-                          
+                            <a href="javascript:void(0);" class="btn btn-light-brand successAlertMessage">
+                                <i class="feather-layers me-2"></i>
+                                <span>Save as Draft</span>
+                            </a>
+                            <a href="javascript:void(0);" class="btn btn-primary successAlertMessage">
+                                <i class="feather-save me-2"></i>
+                                <span>Save Invoice</span>
+                            </a>
                         </div>
                     </div>
-                  
+                    <div class="d-md-none d-flex align-items-center">
+                        <a href="javascript:void(0)" class="page-header-right-open-toggle">
+                            <i class="feather-align-right fs-20"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            
             <!-- [ page-header ] end -->
             <!-- [ Main Content ] start -->
-            <div class="container">
+            <div class="main-content">
+  <div class="row">
+    <!-- LEFT: MAIN FORM -->
 
-    <h1 class="mt-3">{{ $product->name }}</h1>
+  <div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Edit User</h5>
+                    <a href="{{ route('users') }}" class="btn btn-sm btn-secondary">Back</a>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
 
-    <div class="grid">
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" name="username" id="username" class="form-control @error('username') is-invalid @enderror" value="{{ old('username', $user->username) }}">
+                            @error('username')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-        <!-- LEFT -->
-        <div class="card info">
-            <h2>Basic Info</h2>
-            <p><strong>Category:</strong> {{ $product->category->name ?? '—' }}</p>
-            <p><strong>Price:</strong> ${{ $product->base_price }}</p>
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-            <p><strong>Status:</strong>
-                @if($product->is_active)
-                    <span class="badge badge-success">Active</span>
-                @else
-                    <span class="badge badge-danger">Inactive</span>
-                @endif
-            </p>
+                        <!-- Avatar -->
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Profile Picture</label>
+                            <input type="file" name="avatar" id="avatar" class="form-control @error('avatar') is-invalid @enderror">
+                            @error('avatar')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            @if($user->avatar_url)
+  <img src="{{ asset('storage/'.$user->avatar_url) }}" class="rounded-circle mt-2" width="100" height="100">
+@else
+  <img src="{{ asset('adminAssets/images/default-avatar.png') }}" class="rounded-circle mt-2" width="100" height="100">
+@endif
+                        </div>
 
-            <p><strong>Featured:</strong>
-                @if($product->is_featured)
-                    <span class="badge badge-primary">Yes</span>
-                @else
-                    No
-                @endif
-            </p>
+                                        <!-- Role -->
+                         <div class="mb-3">
+                             <label for="role" class="form-label">Role</label>
+                             <select name="role" id="role" class="form-select @error('role') is-invalid @enderror">
+                                 <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                                 <option value="customer" {{ $user->role === 'customer' ? 'selected' : '' }}>Customer</option>
+                                 <option value="designer" {{ $user->role === 'designer' ? 'selected' : '' }}>Designer</option>
+                             </select>
+                             @error('role')
+                                 <div class="invalid-feedback">{{ $message }}</div>
+                             @enderror
+                         </div>
 
-            <h2 style="margin-top:20px;">Attributes</h2>
-            <ul>
-                @foreach($product->attributes as $attr)
-                    <li>{{ $attr->attribute->name }}: {{ $attr->value }}</li>
-                @endforeach
-            </ul>
 
-            <h2 style="margin-top:20px;">Tags</h2>
-            <ul>
-                @foreach($product->tags as $tag)
-                    <li>{{ $tag->name }}</li>
-                @endforeach
-            </ul>
-        </div>
 
-        <!-- RIGHT -->
-        <div class="card">
-            <h2>Variants</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Size</th>
-                        <th>Color</th>
-                        <th>Stock</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($product->variants as $variant)
-                    <tr>
-                        <td>{{ $variant->size }}</td>
-                        <td>{{ $variant->color_name }}</td>
-                        <td>{{ $variant->stock_count }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        <!-- Status -->
+                        <div class="mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="is_active" id="is_active" {{ $user->is_active ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_active">Active</label>
+                        </div>
 
-            <h2 style="margin-top:20px;">Images</h2>
-            <div class="image-grid">
-                @foreach($product->images as $image)
-                    <img src="{{ asset($image->url) }}" alt="">
-                @endforeach
+                        <button type="submit" class="btn btn-primary">Update User</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- REVIEWS -->
-    <div class="card section">
-        <h2>Reviews</h2>
-        <p class="stat">Total Reviews: {{ $product->reviews->count() }}</p>
-        <p class="stat">Average Rating: {{ $product->rating_avg ?? '—' }}</p>
-    </div>
-
-    <!-- LISTINGS -->
-    <div class="card section">
-        <h2>Listings</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Design</th>
-                    <th>Seller</th>
-                    <th>Price</th>
-                    <th>Sales</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($product->listings as $listing)
-                <tr>
-                    <td>{{ $listing->design->name ?? '—' }}</td>
-                    <td>{{ $listing->seller->name ?? '—' }}</td>
-                    <td>${{ $listing->final_price }}</td>
-                    <td>{{ $listing->sales_count }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
 </div>
+
+      </div>
+  
+
             <!-- [ Main Content ] end -->
         </div>
         <!-- [ Footer ] start -->
@@ -511,15 +360,70 @@
     <!--! BEGIN: Vendors JS !-->
     <script src="{{asset('adminAssets/vendors/js/vendors.min.js')}}"></script>
     <!-- vendors.min.js {always must need to be top} -->
-    <script src="{{asset('adminAssets/vendors/js/jquery.print.min.js')}}"></script>
+    <script src="{{asset('adminAssets/vendors/js/select2.min.js')}}"></script>
+    <script src="{{asset('adminAssets/vendors/js/select2-active.min.js')}}"></script>
+    <script src="{{asset('adminAssets/vendors/js/datepicker.min.js')}}"></script>
+    <script src="{{asset('adminAssets/vendors/js/cleave.min.js')}}"></script>
     <!--! END: Vendors JS !-->
     <!--! BEGIN: Apps Init  !-->
     <script src="{{asset('adminAssets/js/common-init.min.js')}}"></script>
-    <script src="{{asset('adminAssets/js/invoice-view-init.min.js')}}"></script>
+  
     <!--! END: Apps Init !-->
     <!--! BEGIN: Theme Customizer  !-->
     <script src="{{asset('adminAssets/js/theme-customizer-init.min.js')}}"></script>
     <!--! END: Theme Customizer !-->
+    <script>
+        $(document).ready(function() {
+            var i = 1;
+            $("#add_row").click(function() {
+                b = i - 1;
+                $("#addr" + i)
+                    .html($("#addr" + b).html())
+                    .find("td:first-child")
+                    .html(i + 1);
+                $("#tab_logic").append('<tr id="addr' + (i + 1) + '"></tr>');
+                i++;
+            });
+            $("#delete_row").click(function() {
+                if (i > 1) {
+                    $("#addr" + (i - 1)).html("");
+                    i--;
+                }
+                calc();
+            });
+            $("#tab_logic tbody").on("keyup change", function() {
+                calc();
+            });
+            $("#tax").on("keyup change", function() {
+                calc_total();
+            });
+        });
+
+        function calc() {
+            $("#tab_logic tbody tr").each(function(i, element) {
+                var html = $(this).html();
+                if (html != "") {
+                    var qty = $(this).find(".qty").val();
+                    var price = $(this).find(".price").val();
+                    $(this)
+                        .find(".total")
+                        .val(qty * price);
+                    calc_total();
+                }
+            });
+        }
+
+        function calc_total() {
+            total = 0;
+            $(".total").each(function() {
+                total += parseInt($(this).val());
+            });
+            $("#sub_total").val(total.toFixed(2));
+            tax_sum = (total / 100) * $("#tax").val();
+            $("#tax_amount").val(tax_sum.toFixed(2));
+            $("#total_amount").val((tax_sum + total).toFixed(2));
+        }
+    </script>
 </body>
 
 </html>

@@ -10,16 +10,18 @@
     <meta name="author" content="theme_ocean">
     <!--! The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags !-->
     <!--! BEGIN: Apps Title-->
-    <title>Duralux || Invoice View</title>
+    <title>InkForge || Users</title>
     <!--! END:  Apps Title-->
     <!--! BEGIN: Favicon-->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('adminAssets/images/favicon.ico')}}">
     <!--! END: Favicon-->
+    <link rel="stylesheet" href="{{ asset('adminAssets/vendors/css/responsive.dataTables.min.css') }}">
     <!--! BEGIN: Bootstrap CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/css/bootstrap.min.css')}}">
     <!--! END: Bootstrap CSS-->
     <!--! BEGIN: Vendors CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/vendors/css/vendors.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/vendors/css/dataTables.bs5.min.css')}}">
     <!--! END: Vendors CSS-->
     <!--! BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('adminAssets/css/theme.min.css')}}">
@@ -30,113 +32,12 @@
 			<script src="https:oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 			<script src="https:oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
-        
 </head>
-    @include('admin.sidebar')
+<body>
+    
+@include('admin.sidebar')
 
-
-<style>
-   
-
-    .container {
-        max-width: 1200px;
-        margin: auto;
-    }
-
-    h1 {
-        font-size: 26px;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        font-size: 16px;
-        margin-bottom: 10px;
-        color: #111827;
-    }
-
-    .card {
-        background: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 8px 24px rgba(0,0,0,.05);
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-    }
-
-    .info p {
-        margin: 6px 0;
-        font-size: 14px;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-    }
-
-    .badge-success { background: #e6f7ef; color: #059669; }
-    .badge-danger { background: #fee2e2; color: #dc2626; }
-    .badge-primary { background: #e0e7ff; color: #4338ca; }
-
-    ul {
-        padding-left: 18px;
-        margin: 0;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
-    }
-
-    th, td {
-        padding: 10px;
-        border-bottom: 1px solid #e5e7eb;
-        text-align: left;
-    }
-
-    th {
-        background: #f9fafb;
-        font-weight: 600;
-    }
-
-    .image-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
-
-    .image-grid img {
-        width: 100%;
-        height: 90px;
-        object-fit: cover;
-        border-radius: 8px;
-        border: 1px solid #e5e7eb;
-    }
-
-    .section {
-        margin-top: 30px;
-    }
-
-    .stat {
-        font-size: 14px;
-        margin-bottom: 6px;
-    }
-
-    @media (max-width: 900px) {
-        .grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-    <!--! ================================================================ !-->
+            
     <!--! ================================================================ !-->
     <!--! [Start] Main Content !-->
     <!--! ================================================================ !-->
@@ -146,11 +47,11 @@
             <div class="page-header">
                 <div class="page-header-left d-flex align-items-center">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Product</h5>
+                        <h5 class="m-b-10">Users</h5>
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item">View</li>
+                        <li class="breadcrumb-item">Users</li>
                     </ul>
                 </div>
                 <div class="page-header-right ms-auto">
@@ -162,7 +63,51 @@
                             </a>
                         </div>
                         <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
-                          
+                            <a href="javascript:void(0);" class="btn btn-icon btn-light-brand" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                <i class="feather-bar-chart"></i>
+                            </a>
+                            <div class="dropdown">
+  <a class="btn btn-icon btn-light-brand"
+     data-bs-toggle="dropdown"
+     data-bs-offset="0, 10"
+     data-bs-auto-close="outside">
+    <i class="feather-filter"></i>
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-end p-2" style="min-width: 260px;">
+
+    <!-- role -->
+    <div class="px-2 pt-1 pb-1 small text-muted fw-semibold">Role</div>
+   <a class="dropdown-item" data-filter="role" data-value="admin">Admin</a>
+<a class="dropdown-item" data-filter="role" data-value="designer">Designer</a>
+<a class="dropdown-item" data-filter="role" data-value="customer">Customer</a>
+
+
+    <div class="dropdown-divider my-2"></div>
+
+    <!-- status -->
+    <div class="px-2 pt-1 pb-1 small text-muted fw-semibold">Status</div>
+ <a class="dropdown-item" data-filter="status" data-value="1">Active</a>
+<a class="dropdown-item" data-filter="status" data-value="0">Inactive</a>
+
+
+    <div class="dropdown-divider my-2"></div>
+<!-- shop -->
+     <div class="px-2 pt-1 pb-1 small text-muted fw-semibold">Shop</div>
+<a class="dropdown-item" data-filter="has_shop" data-value="yes">Has Shop</a>
+<a class="dropdown-item" data-filter="has_shop" data-value="no">No Shop</a>
+
+
+    <div class="dropdown-divider my-2"></div>
+    <!-- CLEAR -->
+    <a href="javascript:void(0);" class="dropdown-item text-danger" data-action="clearFilters">
+      <i class="feather-x-circle me-3"></i>
+      <span>Clear Filters</span>
+    </a>
+
+  </div>
+</div>
+
                             <div class="dropdown">
                                 <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10" data-bs-auto-close="outside">
                                     <i class="feather-paperclip"></i>
@@ -195,122 +140,183 @@
                                     </a>
                                 </div>
                             </div>
-                          
+                        
                         </div>
                     </div>
-                  
+                    <div class="d-md-none d-flex align-items-center">
+                        <a href="javascript:void(0)" class="page-header-right-open-toggle">
+                            <i class="feather-align-right fs-20"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            
+            <div id="collapseOne" class="accordion-collapse collapse page-header-collapse">
+                <div class="accordion-body pb-2">
+                    <div class="row">
+                        <div class="col-xxl-3 col-md-6">
+    <div class="card stretch stretch-full">
+        <div class="card-body text-dark">
+            <span>Total Users</span>
+            <span class="fs-20 fw-bold d-block">{{ $totalUsers }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="col-xxl-3 col-md-6">
+    <div class="card stretch stretch-full">
+        <div class="card-body text-dark">
+            <span>Active Users</span>
+            <span class="fs-20 fw-bold d-block">{{ $activeUsers }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="col-xxl-3 col-md-6">
+    <div class="card stretch stretch-full">
+        <div class="card-body text-dark">
+            <span>Inactive Users</span>
+            <span class="fs-20 fw-bold d-block">{{ $inactiveUsers }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="col-xxl-3 col-md-6">
+    <div class="card stretch stretch-full">
+        <div class="card-body text-dark">
+            <span>Designers</span>
+            <span class="fs-20 fw-bold d-block">{{ $designers }}</span>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
             <!-- [ page-header ] end -->
             <!-- [ Main Content ] start -->
-            <div class="container">
+           <div class="main-content">
+            <div class="row">
+             <div class="col-lg-12">
+              <div class="card stretch stretch-full">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover display nowrap" id="userList">
+                          <thead>
+                              <tr>
+                                  <th></th>
+                                  <th>Username</th>
+                                  <th>Email</th>
+                                  <th>Role</th>
+                                  <th>Status</th>
+                                  <th>Shop</th>
+                                  <th>Designs</th>
+                                  <th>Listings</th>
+                                  <th>Reviews</th>
+                                  <th>Wishlists</th>
+                                  <th class="text-end">Actions</th>
+                              </tr>
+                            </thead>
 
-    <h1 class="mt-3">{{ $product->name }}</h1>
 
-    <div class="grid">
+                            <tbody>
+                             @foreach($users as $user)
+                             <tr>
+                             
+                             <td>
+    <a href="{{ route('admin.users.show', $user->id) }}">
+        <img src="{{ $user->avatar_src }}" 
+             alt="{{ $user->username }}" 
+             width="40" height="40" 
+             class="rounded-circle">
+    </a>
+</td>
+                             
+                             <td class="fw-bold">
+                                 {{ $user->username }}
+                             </td>
+                             
+                             <td>
+                                 {{ $user->email }}
+                             </td>
+                             
+                             <td>
+                                 <span class="badge bg-soft-primary text-primary">
+                                     {{ ucfirst($user->role) }}
+                                 </span>
+                             </td>
+                             
+                             <td>
+                                 @if($user->is_active)
+                                     <span class="badge bg-soft-success text-success">Active</span>
+                                 @else
+                                     <span class="badge bg-soft-danger text-danger">Inactive</span>
+                                 @endif
+                             </td>
+                             
+                             <td>
+                                 {{ $user->shop ? 'Yes' : 'No' }}
+                             </td>
+                             
+                             <td>{{ $user->designs->count() }}</td>
+                             <td>{{ $user->listings->count() }}</td>
+                             <td>{{ $user->reviews->count() }}</td>
+                             <td>{{ $user->wishlists->count() }}</td>
+                             
+                             <td>
+                                 <div class="hstack gap-2 justify-content-end">
+                             
+                                     <a href="{{ route('admin.users.show', $user->id) }}"
+                                        class="avatar-text avatar-md">
+                                         <i class="feather-eye"></i>
+                                     </a>
+                             
+                                     <div class="dropdown">
+                                         <a href="javascript:void(0)"
+                                            class="avatar-text avatar-md"
+                                            data-bs-toggle="dropdown">
+                                             <i class="feather-more-horizontal"></i>
+                                         </a>
+                             
+                                         <ul class="dropdown-menu">
+                             
+                                             <li>
+                                                 <a href="{{ route('users.editShow', $user->id) }}"
+                                                    class="dropdown-item">
+                                                     <i class="feather-edit me-3"></i>Edit
+                                                 </a>
+                                             </li>
+                             
+                                             <li>
+                                                 <form action="{{ route('admin.users.destroy', $user->id) }}"
+                                                       method="POST"
+                                                       onsubmit="return confirm('Delete this user?')">
+                                                     @csrf
+                                                     @method('DELETE')
+                             
+                                                     <button class="dropdown-item text-danger">
+                                                         <i class="feather-trash-2 me-3"></i>Delete
+                                                     </button>
+                                                 </form>
+                                             </li>
+                             
+                                         </ul>
+                                     </div>
+                                 </div>
+                             </td>
+                             
+                             </tr>
+                             @endforeach
+                             </tbody>
 
-        <!-- LEFT -->
-        <div class="card info">
-            <h2>Basic Info</h2>
-            <p><strong>Category:</strong> {{ $product->category->name ?? '—' }}</p>
-            <p><strong>Price:</strong> ${{ $product->base_price }}</p>
+                        </table>
+                    </div>
 
-            <p><strong>Status:</strong>
-                @if($product->is_active)
-                    <span class="badge badge-success">Active</span>
-                @else
-                    <span class="badge badge-danger">Inactive</span>
-                @endif
-            </p>
-
-            <p><strong>Featured:</strong>
-                @if($product->is_featured)
-                    <span class="badge badge-primary">Yes</span>
-                @else
-                    No
-                @endif
-            </p>
-
-            <h2 style="margin-top:20px;">Attributes</h2>
-            <ul>
-                @foreach($product->attributes as $attr)
-                    <li>{{ $attr->attribute->name }}: {{ $attr->value }}</li>
-                @endforeach
-            </ul>
-
-            <h2 style="margin-top:20px;">Tags</h2>
-            <ul>
-                @foreach($product->tags as $tag)
-                    <li>{{ $tag->name }}</li>
-                @endforeach
-            </ul>
-        </div>
-
-        <!-- RIGHT -->
-        <div class="card">
-            <h2>Variants</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Size</th>
-                        <th>Color</th>
-                        <th>Stock</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($product->variants as $variant)
-                    <tr>
-                        <td>{{ $variant->size }}</td>
-                        <td>{{ $variant->color_name }}</td>
-                        <td>{{ $variant->stock_count }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <h2 style="margin-top:20px;">Images</h2>
-            <div class="image-grid">
-                @foreach($product->images as $image)
-                    <img src="{{ asset($image->url) }}" alt="">
-                @endforeach
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- REVIEWS -->
-    <div class="card section">
-        <h2>Reviews</h2>
-        <p class="stat">Total Reviews: {{ $product->reviews->count() }}</p>
-        <p class="stat">Average Rating: {{ $product->rating_avg ?? '—' }}</p>
-    </div>
-
-    <!-- LISTINGS -->
-    <div class="card section">
-        <h2>Listings</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Design</th>
-                    <th>Seller</th>
-                    <th>Price</th>
-                    <th>Sales</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($product->listings as $listing)
-                <tr>
-                    <td>{{ $listing->design->name ?? '—' }}</td>
-                    <td>{{ $listing->seller->name ?? '—' }}</td>
-                    <td>${{ $listing->final_price }}</td>
-                    <td>{{ $listing->sales_count }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
 </div>
+
             <!-- [ Main Content ] end -->
         </div>
         <!-- [ Footer ] start -->
@@ -332,6 +338,57 @@
     </main>
     <!--! ================================================================ !-->
     <!--! [End] Main Content !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! [Start] Sent Payment l !-->
+    <!--! ================================================================ !-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="paymentSent">
+        <div class="offcanvas-header ht-80 px-4 border-bottom border-gray-5">
+            <div>
+                <h2 class="fs-16 fw-bold text-truncate-1-line">Sent Payment</h2>
+                <small class="fs-12 text-muted">Sent payment to your client's</small>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="py-3 px-4 d-flex justify-content-between align-items-center border-bottom border-bottom-dashed border-gray-5 bg-gray-100">
+            <div>
+                <span class="fw-bold text-dark">Date:</span>
+                <span class="fs-11 fw-medium text-muted">25 MAY, 2023</span>
+            </div>
+            <div>
+                <span class="fw-bold text-dark">Payment No:</span>
+                <span class="fs-12 fw-bold text-primary c-pointer">#NXL369852</span>
+            </div>
+        </div>
+        <div class="offcanvas-body">
+            <div class="form-group mb-4">
+                <label class="form-label">From: <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" value="wrapcode.info@gmail.com" placeholder="Clients..." readonly="" required>
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label">To: <span class="text-danger">*</span></label>
+                <input class="form-control" name="tomailcontent" value="wrapcode.info@gmail.com" placeholder="To..." required>
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label">Subject: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="Subject..." required>
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label">URL: </label>
+                <input type="url" class="form-control" placeholder="URL...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Messages:</label>
+                <div data-editor-target="editor" class="ht-200"></div>
+            </div>
+        </div>
+        <div class="px-4 gap-2 d-flex align-items-center ht-80 border border-end-0 border-gray-2">
+            <a href="javascript:void(0);" class="btn btn-primary w-50" data-alert-target="alertMessage">Sent Payment</a>
+            <a href="javascript:void(0);" class="btn btn-danger w-50" data-bs-dismiss="offcanvas">Cancel</a>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! [End] Sent Payment !-->
     <!--! ================================================================ !-->
     <!--! ================================================================ !-->
     <!--! BEGIN: Theme Customizer !-->
@@ -511,15 +568,52 @@
     <!--! BEGIN: Vendors JS !-->
     <script src="{{asset('adminAssets/vendors/js/vendors.min.js')}}"></script>
     <!-- vendors.min.js {always must need to be top} -->
-    <script src="{{asset('adminAssets/vendors/js/jquery.print.min.js')}}"></script>
+    <script src="{{asset('adminAssets/vendors/js/dataTables.min.js')}}"></script>
+    <script src="{{asset('adminAssets/vendors/js/dataTables.bs5.min.js')}}"></script>
     <!--! END: Vendors JS !-->
     <!--! BEGIN: Apps Init  !-->
     <script src="{{asset('adminAssets/js/common-init.min.js')}}"></script>
-    <script src="{{asset('adminAssets/js/invoice-view-init.min.js')}}"></script>
+    <script src="{{asset('adminAssets/js/payment-init.min.js')}}"></script>
     <!--! END: Apps Init !-->
     <!--! BEGIN: Theme Customizer  !-->
     <script src="{{asset('adminAssets/js/theme-customizer-init.min.js')}}"></script>
     <!--! END: Theme Customizer !-->
+    <script src="{{ asset('adminAssets/vendors/js/dataTables.responsive.min.js') }}"></script>
+    <script>
+    $(document).ready(function () {
+        $('#userList').DataTable({
+            paging: true,        // show pagination
+            searching: true,     // show search bar
+            lengthChange: true,  // show "Show entries"
+            info: true,          // "Showing 1 to 10 of X entries"
+            ordering: true,
+            pageLength: 10,      // default entries
+            lengthMenu: [5, 10, 25, 50, 100],
+            responsive: true
+        });
+    });
+
+    let filters = {};
+
+$(document).on('click', '.dropdown-item[data-filter]', function () {
+    const filter = $(this).data('filter');
+    const value  = $(this).data('value');
+
+    filters[filter] = value;
+    reloadWithFilters();
+});
+
+$(document).on('click', '[data-action="clearFilters"]', function () {
+    filters = {};
+    reloadWithFilters();
+});
+
+function reloadWithFilters() {
+    const params = new URLSearchParams(filters).toString();
+    window.location.href = "{{ route('users') }}" + (params ? '?' + params : '');
+}
+</script>
+
 </body>
 
 </html>

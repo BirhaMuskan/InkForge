@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\adminController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,22 +36,34 @@ Route::get('/payment', function () {
 // })->name('check2');
 
 
-    Route::get('/products', [adminController::class, 'Products'])->name('products');
-    Route::get('products/{id}', [adminController::class, 'productView'])->name('products.show');
-    Route::get('/addProduct', [adminController::class, 'showAddProd'])->name('showAddProd');
+    Route::get('/products', [ProductController::class, 'Products'])->name('products');
+    Route::get('products/{id}', [ProductController::class, 'productView'])->name('products.show');
+    Route::get('/addProduct', [ProductController::class, 'showAddProd'])->name('showAddProd');
   
 
-Route::delete('/products/delete/{id}', [adminController::class, 'destroy'])->name('products.destroy');
-Route::get('/pro/updshow/{id}', [adminController::class, 'showEdit'])->name('updateProduct');
+Route::delete('/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::get('/pro/updshow/{id}', [ProductController::class, 'showEdit'])->name('updateProduct');
 
-Route::put('/products/update/{product}', [adminController::class, 'update'])->name('product.update');
-
-
-
+Route::put('/products/update/{product}', [ProductController::class, 'update'])->name('product.update');
 
      
-Route::post('/admin/products', [adminController::class, 'store'])->name('addProduct');
+Route::post('/admin/products', [ProductController::class, 'store'])->name('addProduct');
 
 
 
+// Users list page 
+    Route::get('/users', [UserController::class, 'users'])
+        ->name('users');
 
+    // Show single user
+    Route::get('/users/{id}', [UserController::class, 'show'])
+        ->name('admin.users.show');
+
+    // Edit user
+    Route::get('/users/{id}/edit/show', [UserController::class, 'edit'])
+        ->name('users.editShow');
+ Route::put('/users/{id}/update', [UserController::class, 'update'])
+        ->name('users.update');
+    // Delete user
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])
+        ->name('admin.users.destroy');

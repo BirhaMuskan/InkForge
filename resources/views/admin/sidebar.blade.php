@@ -42,9 +42,9 @@
                         </a>
                     </li>
                     <li class="nxl-item nxl-hasmenu">
-                        <a href="{{route('payment')}}" class="nxl-link">
+                        <a href="{{route('users')}}" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
-                            <span class="nxl-mtext">Payment</span><span class="nxl-arrow"></span>
+                            <span class="nxl-mtext">Users</span><span class="nxl-arrow"></span>
                         </a>
                     </li>
                     <li class="nxl-item nxl-hasmenu">

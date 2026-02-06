@@ -11,7 +11,7 @@
     <meta name="author" content="theme_ocean">
     <!--! The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags !-->
     <!--! BEGIN: Apps Title-->
-    <title>Duralux || Invoice Create</title>
+    <title>InkForge || Add Product</title>
     <!--! END:  Apps Title-->
     <!--! BEGIN: Favicon-->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('adminAssets/images/favicon.ico')}}">
@@ -66,7 +66,7 @@
                             </a>
                             <a href="javascript:void(0);" class="btn btn-primary successAlertMessage">
                                 <i class="feather-save me-2"></i>
-                                <span>Save Invoice</span>
+                                <span>Save Product</span>
                             </a>
                         </div>
                     </div>

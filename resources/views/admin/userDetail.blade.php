@@ -146,11 +146,13 @@
             <div class="page-header">
                 <div class="page-header-left d-flex align-items-center">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Product</h5>
+                        <h5 class="m-b-10">Users</h5>
                     </div>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('users')}}">Users</a></li>
                         <li class="breadcrumb-item">View</li>
+
                     </ul>
                 </div>
                 <div class="page-header-right ms-auto">
@@ -204,115 +206,86 @@
             
             <!-- [ page-header ] end -->
             <!-- [ Main Content ] start -->
-            <div class="container">
+           <div class="container-fluid py-4">
+    <div class="row">
+        <!-- Left Column: Avatar + Basic Info -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <img src="{{ $user->avatar_url }}" 
+                         alt="{{ $user->username }}" 
+                         class="rounded-circle mb-3" 
+                         width="120" height="120">
+                    <h4 class="mb-1">{{ $user->username }}</h4>
+                    <p class="text-muted mb-1">{{ $user->email }}</p>
+                    <span class="badge bg-primary">{{ ucfirst($user->role) }}</span>
+                    @if($user->is_active)
+                        <span class="badge bg-success">Active</span>
+                    @else
+                        <span class="badge bg-danger">Inactive</span>
+                    @endif
+                </div>
+            </div>
 
-    <h1 class="mt-3">{{ $product->name }}</h1>
-
-    <div class="grid">
-
-        <!-- LEFT -->
-        <div class="card info">
-            <h2>Basic Info</h2>
-            <p><strong>Category:</strong> {{ $product->category->name ?? '—' }}</p>
-            <p><strong>Price:</strong> ${{ $product->base_price }}</p>
-
-            <p><strong>Status:</strong>
-                @if($product->is_active)
-                    <span class="badge badge-success">Active</span>
-                @else
-                    <span class="badge badge-danger">Inactive</span>
-                @endif
-            </p>
-
-            <p><strong>Featured:</strong>
-                @if($product->is_featured)
-                    <span class="badge badge-primary">Yes</span>
-                @else
-                    No
-                @endif
-            </p>
-
-            <h2 style="margin-top:20px;">Attributes</h2>
-            <ul>
-                @foreach($product->attributes as $attr)
-                    <li>{{ $attr->attribute->name }}: {{ $attr->value }}</li>
-                @endforeach
-            </ul>
-
-            <h2 style="margin-top:20px;">Tags</h2>
-            <ul>
-                @foreach($product->tags as $tag)
-                    <li>{{ $tag->name }}</li>
-                @endforeach
-            </ul>
-        </div>
-
-        <!-- RIGHT -->
-        <div class="card">
-            <h2>Variants</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Size</th>
-                        <th>Color</th>
-                        <th>Stock</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($product->variants as $variant)
-                    <tr>
-                        <td>{{ $variant->size }}</td>
-                        <td>{{ $variant->color_name }}</td>
-                        <td>{{ $variant->stock_count }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <h2 style="margin-top:20px;">Images</h2>
-            <div class="image-grid">
-                @foreach($product->images as $image)
-                    <img src="{{ asset($image->url) }}" alt="">
-                @endforeach
+            <!-- Shop Card -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Shop</h6>
+                </div>
+                <div class="card-body">
+                    @if($user->shop)
+                        <p><strong>Name:</strong> {{ $user->shop->name }}</p>
+                        <p><strong>Floor:</strong> {{ $user->shop->floor }}</p>
+                        <p><strong>Rent:</strong> ${{ $user->shop->rent }}</p>
+                    @else
+                        <p class="text-muted">No shop assigned.</p>
+                    @endif
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- REVIEWS -->
-    <div class="card section">
-        <h2>Reviews</h2>
-        <p class="stat">Total Reviews: {{ $product->reviews->count() }}</p>
-        <p class="stat">Average Rating: {{ $product->rating_avg ?? '—' }}</p>
-    </div>
+        <!-- Right Column: Statistics + Other Info -->
+        <div class="col-lg-8">
+            <!-- Statistics Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Statistics</h6>
+                </div>
+                <div class="card-body row text-center">
+                    <div class="col-md-3 mb-3">
+                        <h5>{{ $user->designs->count() }}</h5>
+                        <p class="text-muted mb-0">Designs</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <h5>{{ $user->listings->count() }}</h5>
+                        <p class="text-muted mb-0">Listings</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <h5>{{ $user->reviews->count() }}</h5>
+                        <p class="text-muted mb-0">Reviews</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <h5>{{ $user->wishlists->count() }}</h5>
+                        <p class="text-muted mb-0">Wishlists</p>
+                    </div>
+                </div>
+            </div>
 
-    <!-- LISTINGS -->
-    <div class="card section">
-        <h2>Listings</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Design</th>
-                    <th>Seller</th>
-                    <th>Price</th>
-                    <th>Sales</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($product->listings as $listing)
-                <tr>
-                    <td>{{ $listing->design->name ?? '—' }}</td>
-                    <td>{{ $listing->seller->name ?? '—' }}</td>
-                    <td>${{ $listing->final_price }}</td>
-                    <td>{{ $listing->sales_count }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+            <!-- Other Info Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Other Info</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Registered At:</strong> {{ $user->created_at->format('d M, Y') }}</p>
+                    <p><strong>Last Updated:</strong> {{ $user->updated_at->format('d M, Y') }}</p>
+                </div>
+            </div>
 
-</div>
-            <!-- [ Main Content ] end -->
+            <a href="{{ route('users') }}" class="btn btn-primary">Back to Users</a>
         </div>
+    </div>
+</div>
         <!-- [ Footer ] start -->
         <footer class="footer">
             <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">

@@ -6,53 +6,25 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductVariant;
-use App\Models\ProductImage;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
+use App\Models\ProductImage;
+use App\Models\ProductListing;
+use App\Models\ProductReview;
 use App\Models\ProductTag;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\ProductTagAssignment;
+use App\Models\ProductVariant;
+use App\Models\ProductView;
+use App\Models\DesignTemplate;
+use App\Models\UserDesign;
+use App\Models\Wishlist;
+use App\Models\Shop;
+use App\Models\SearchSynonym;
 
-class adminController extends Controller
+
+class ProductController extends Controller
 {
-    
-   // Product list page
-    // public function Products()
-    // {
-    //     $products = Product::with([
-    //         'category',
-    //         'variants',
-    //         'images',
-    //         'attributes.attribute',
-    //         'tags',
-    //         'reviews',
-    //         'listings'
-    //     ])
-    //     ->orderBy('created_at', 'desc')
-    //     ->get();
-
-    //     // Dashboard stats
-    //     $totalProducts = Product::count();
-    //     $activeProducts = Product::where('is_active', 1)->count();
-    //     $featuredProducts = Product::where('is_featured', 1)->count();
-    //     $outOfStock = Product::whereHas('variants', function ($q) {
-    //         $q->where('stock_count', '<=', 0);
-    //     })->count();
-
-        
-
-    //     return view('admin.products', compact(
-    //         'products', 
-    //         'totalProducts', 
-    //         'activeProducts', 
-    //         'featuredProducts', 
-    //         'outOfStock',
-            
-    //     ));
-    // }
-
-    public function Products(Request $request)
+     public function Products(Request $request)
 {
     $query = Product::with(['category','variants','reviews']);
 
@@ -491,7 +463,4 @@ public function showEdit($id)
     return view('admin.editProd', compact('product', 'categories', 'attributes', 'tags'));
 }
 
-} 
-
-
-
+}
