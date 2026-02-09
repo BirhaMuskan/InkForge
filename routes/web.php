@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\productCardsController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,9 +25,7 @@ Route::get('/report', function () {
     return view('admin.sales-report');
 })->name('report');
 
-Route::get('/payment', function () {
-    return view('admin.payment');
-})->name('payment');
+
 
 // Route::get('/check', function () {
 //     return view('check');
@@ -50,6 +50,8 @@ Route::put('/products/update/{product}', [ProductController::class, 'update'])->
 Route::post('/admin/products', [ProductController::class, 'store'])->name('addProduct');
 
 
+Route::get('/cards', [productCardsController::class, 'cards'])
+    ->name('cards');
 
 // Users list page 
     Route::get('/users', [UserController::class, 'users'])
