@@ -4,11 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\productCardsController;
+use App\Http\Controllers\HomeController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index']);
 
 
 
@@ -69,3 +68,6 @@ Route::get('/cards', [productCardsController::class, 'cards'])
     // Delete user
     Route::delete('/users/{id}', [UserController::class, 'destroy'])
         ->name('admin.users.destroy');
+
+
+        Route::get('/product/{slug}', [ProductCardsController::class, 'show'])->name('product.show');

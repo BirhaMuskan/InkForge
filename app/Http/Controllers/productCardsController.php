@@ -22,8 +22,9 @@ use App\Models\Shop;
 
 class productCardsController extends Controller
 {
-        public function cards(Request $request){
-         $listings = ProductListing::with([
+     public function cards(Request $request)
+    {
+        $listings = ProductListing::with([
                 'product.images',
                 'product.variants',
                 'product.category',
@@ -34,25 +35,23 @@ class productCardsController extends Controller
                 $q->where('is_active', 1);
             });
 
-        // CATEGORY FILTER (multi-select)
-if ($request->filled('category')) {
+        // CATEGORY FILTER
+        if ($request->filled('category')) {
+            $categories = is_array($request->category)
+                ? $request->category
+                : [$request->category];
 
-    $categories = is_array($request->category)
-        ? $request->category
-        : [$request->category];
-
-    $listings->whereHas('product', function ($q) use ($categories) {
-        $q->whereIn('category_id', $categories);
-    });
-}
-
+            $listings->whereHas('product', function ($q) use ($categories) {
+                $q->whereIn('category_id', $categories);
+            });
+        }
 
         // PRICE FILTER
         if ($request->max_price) {
             $listings->where('final_price', '<=', $request->max_price);
         }
 
-        // COLOR FILTER (from product_variants)
+        // COLOR FILTER
         if ($request->color) {
             $listings->whereHas('product.variants', function ($q) use ($request) {
                 $q->where('color_hex', $request->color);
@@ -67,19 +66,46 @@ if ($request->filled('category')) {
         };
 
         return view('home.prodCards', [
-            'listings'   => $listings->paginate(12),
+            'listings'   => $listings->paginate(12)->withQueryString(),
             'categories' => Category::where('is_active', 1)->get(),
             'colors'     => $this->getColors()
         ]);
     }
 
-   private function getColors()
+    // Make sure this is INSIDE the controller class
+    private function getColors()
+    {
+        return ProductVariant::whereNotNull('color_hex')
+            ->distinct()
+            ->pluck('color_hex');
+    }
+
+      /**
+     * Show a single product detail page
+     */
+public function show($slug)
 {
-    return ProductVariant::whereNotNull('color_hex')
-        ->distinct()
-        ->pluck('color_hex');
+    $product = Product::where('slug', $slug)
+        ->with([
+            'category',
+            'variants',
+            'images',
+            'listings.design', // IMPORTANT
+            'reviews',
+            'tags'
+        ])
+        ->firstOrFail();
+
+    $listing = $product->listings()->first();
+
+    $galleryImages = [];
+
+    if ($listing && $listing->design && $listing->design->design_data) {
+        $galleryImages = json_decode($listing->design->design_data, true);
+    }
+
+    return view('home.prodDetail', compact('product', 'listing', 'galleryImages'));
 }
 
-     
     
 }
