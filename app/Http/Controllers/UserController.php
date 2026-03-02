@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     
-    // List users with filters
+
     public function users(Request $request)
     {
         $query = User::with([
@@ -39,10 +39,9 @@ class UserController extends Controller
             'uploadedTemplates'
         ]);
 
-        // Allowed roles for filtering (no guest)
         $allowedRoles = ['admin', 'customer', 'designer'];
 
-        // Filters
+      
         if ($request->role && in_array($request->role, $allowedRoles)) {
             $query->where('role', $request->role);
         }
@@ -61,13 +60,12 @@ class UserController extends Controller
 
         $users = $query->latest()->get();
 
-        // Stats
         $totalUsers = User::count();
         $activeUsers = User::where('is_active', 1)->count();
         $inactiveUsers = User::where('is_active', 0)->count();
         $designers = User::where('role', 'designer')->count();
 
-          // Prepare avatar URL
+          
     foreach ($users as $user) {
     $user->avatar_src = $user->avatar_url
         ? asset('storage/' . $user->avatar_url)
@@ -94,7 +92,7 @@ class UserController extends Controller
         'listings',
     ])->findOrFail($id);
 
-    // Avatar URL
+  
     $user->avatar_src = $user->avatar_url
     ? asset('storage/' . $user->avatar_url)
     : asset('adminAssets/images/default-avatar.png');
@@ -112,7 +110,7 @@ class UserController extends Controller
     return view('admin.userEdit', compact('user', 'roles'));
     }
 
-    // Update logic
+    // Update 
    public function update(Request $request, $id)
 {
     $user = User::findOrFail($id);
@@ -125,15 +123,15 @@ class UserController extends Controller
         'is_active' => 'sometimes|accepted',
     ]);
 
-    // Avatar upload
+   
     if ($request->hasFile('avatar')) {
-        // delete old avatar (only if you stored relative path like "avatars/xxx.jpg")
+       
         if ($user->avatar_url && Storage::disk('public')->exists($user->avatar_url)) {
             Storage::disk('public')->delete($user->avatar_url);
         }
 
         $path = $request->file('avatar')->store('avatars', 'public');
-        $user->avatar_url = $path; // ✅ correct column
+        $user->avatar_url = $path; 
     }
 
     $user->username  = $request->username;
@@ -151,7 +149,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Prevent deleting admin
+       
         if ($user->role === 'admin') {
             return back()->with('error', 'Admin cannot be deleted.');
         }

@@ -28,7 +28,7 @@ class ProductController extends Controller
 {
     $query = Product::with(['category','variants','reviews']);
 
-    // ===== APPLY FILTERS =====
+   
     if ($request->filled('status')) {
         $query->where('is_active', $request->status === 'active');
     }
@@ -53,13 +53,12 @@ class ProductController extends Controller
 
     $products = $query->orderBy('created_at','desc')->get();
 
-    // Stats
     $totalProducts = Product::count();
     $activeProducts = Product::where('is_active',1)->count();
     $featuredProducts = Product::where('is_featured',1)->count();
     $outOfStock = Product::whereHas('variants', fn($q)=>$q->where('stock_count','<=',0))->count();
 
-    //  FETCH CATEGORIES
+    
     $categories = Category::orderBy('name')->get();
 
     return view('admin.products', compact(
@@ -73,8 +72,6 @@ class ProductController extends Controller
 }
 
 
-
-    // View / Edit single product
     public function productView($id)
     {
         $product = Product::with([
@@ -117,7 +114,7 @@ public function destroy($id)
     public function store(Request $request)
     {
         $validated = $request->validate([
-    // ================= PRODUCTS =================
+  
     'name' => ['required', 'string', 'max:200'],
     'slug' => ['nullable', 'string', 'max:200'],
     'category_id' => ['required', 'exists:categories,id'],
@@ -130,7 +127,6 @@ public function destroy($id)
     'min_dpi' => ['nullable', 'integer', 'min:72'],
     'mockup_template' => ['nullable', 'string', 'max:255'],
 
-    // ================= VARIANTS =================
     'variants' => ['required','array','min:1'],
 'variants.*.sku' => [
     'required',
@@ -145,14 +141,13 @@ public function destroy($id)
     'variants.*.stock_count' => ['nullable', 'integer'],
     'variants.*.additional_cost' => ['nullable', 'numeric', 'min:0'],
 
-    // ================= IMAGES =================
+
     'images' => ['required','array','min:1'],
 'images.*.image_url' => ['required','string','max:500'],
     'images.*.image_type' => ['nullable', 'in:mockup,preview,lifestyle'],
     'images.*.angle' => ['nullable', 'string', 'max:50'],
     'images.*.alt_text' => ['nullable', 'string', 'max:255'],
 
-    // ================= ATTRIBUTES =================
   'attrs' => ['nullable', 'array'],
 
 'attrs.*.attribute_id' => [
@@ -167,29 +162,27 @@ public function destroy($id)
     'max:100'
 ],
 
-    // ================= TAGS =================
     'tag_ids' => ['nullable', 'array'],
     'tag_ids.*' => ['exists:product_tags,id'],
 ]);
 
-        // checkboxes
         $validated['is_active'] = $request->boolean('is_active', true);
         $validated['is_featured'] = $request->boolean('is_featured', false);
         $validated['is_embroidery_compatible'] = $request->boolean('is_embroidery_compatible', false);
 
-        // slug is NOT NULL + UNIQUE in DB
+     
         $baseSlug = trim($validated['slug'] ?? '');
         $baseSlug = $baseSlug !== '' ? Str::slug($baseSlug) : Str::slug($validated['name']);
         if ($baseSlug === '') $baseSlug = 'product';
         $validated['slug'] = $this->uniqueSlug($baseSlug);
 
-        // defaults
+     
         $validated['min_dpi'] = $validated['min_dpi'] ?? 150;
         $validated['weight_grams'] = $validated['weight_grams'] ?? 0;
 
         return DB::transaction(function () use ($validated, $request) {
 
-            // 1) create base product
+        
             
             $product = Product::create([
                 'name' => $validated['name'],
@@ -208,7 +201,6 @@ public function destroy($id)
                 'weight_grams' => $validated['weight_grams'],
             ]);
 
-            // 2) variants
             $variants = $request->input('variants', []);
             if (is_array($variants)) {
                 $cleanVariants = [];
@@ -230,7 +222,6 @@ public function destroy($id)
                 }
             }
 
-            // 3) images
             $images = $request->input('images', []);
             if (is_array($images)) {
                 $order = 0;
@@ -247,7 +238,6 @@ public function destroy($id)
                 }
             }
 
-            // 4) attributes (product_attribute_values has UNIQUE(product_id, attribute_id))
             $attrs = $request->input('attrs', []);
             if (is_array($attrs)) {
                 $display = 0;
@@ -268,7 +258,7 @@ public function destroy($id)
                 }
             }
 
-            // 5) tags (pivot product_tag_assignments)
+       
             $tagIds = $request->input('tag_ids', []);
             if (is_array($tagIds)) {
                 $product->tags()->sync(array_values(array_unique(array_map('intval', $tagIds))));
@@ -297,7 +287,7 @@ public function destroy($id)
     public function update(Request $request, Product $product)
 {
     $validated = $request->validate([
-        // ================= PRODUCTS =================
+    
         'name' => ['required', 'string', 'max:200'],
         'slug' => ['nullable', 'string', 'max:200'],
         'category_id' => ['required', 'exists:categories,id'],
@@ -310,7 +300,7 @@ public function destroy($id)
         'min_dpi' => ['nullable', 'integer', 'min:72'],
         'mockup_template' => ['nullable', 'string', 'max:255'],
 
-        // ================= VARIANTS =================
+  
         'variants' => ['nullable', 'array'],
         'variants.*.sku' => ['required_with:variants', 'string', 'max:100'],
         'variants.*.color_name' => ['nullable', 'string', 'max:50'],
@@ -319,47 +309,43 @@ public function destroy($id)
         'variants.*.stock_count' => ['nullable', 'integer'],
         'variants.*.additional_cost' => ['nullable', 'numeric', 'min:0'],
 
-        // ================= IMAGES =================
         'images' => ['nullable', 'array'],
         'images.*.image_url' => ['required_with:images','string','max:500'],
         'images.*.image_type' => ['nullable', 'in:mockup,preview,lifestyle'],
         'images.*.angle' => ['nullable', 'string', 'max:50'],
         'images.*.alt_text' => ['nullable', 'string', 'max:255'],
 
-        // ================= ATTRIBUTES =================
         'attrs' => ['nullable','array'],
         'attrs.*.attribute_id' => ['required','integer','exists:product_attributes,id'],
         'attrs.*.value' => ['nullable','string','max:100'],
 
-        // ================= TAGS =================
+
         'tag_ids' => ['nullable', 'array'],
         'tag_ids.*' => ['exists:product_tags,id'],
     ]);
 
-    // checkboxes
+    
     $validated['is_active'] = $request->boolean('is_active', true);
     $validated['is_featured'] = $request->boolean('is_featured', false);
     $validated['is_embroidery_compatible'] = $request->boolean('is_embroidery_compatible', false);
 
-    // slug logic
+  
     $baseSlug = trim($validated['slug'] ?? '');
     $baseSlug = $baseSlug !== '' ? Str::slug($baseSlug) : Str::slug($validated['name']);
     if ($baseSlug === '') $baseSlug = 'product';
     
-    // Only make slug unique if it changed
     if ($baseSlug !== $product->slug) {
         $validated['slug'] = $this->uniqueSlug($baseSlug);
     } else {
         $validated['slug'] = $product->slug;
     }
 
-    // defaults
+
     $validated['min_dpi'] = $validated['min_dpi'] ?? 150;
     $validated['weight_grams'] = $validated['weight_grams'] ?? 0;
 
     return DB::transaction(function () use ($validated, $request, $product) {
 
-        // 1) Update base product
         $product->update([
             'name' => $validated['name'],
             'slug' => $validated['slug'],
@@ -377,7 +363,7 @@ public function destroy($id)
             'weight_grams' => $validated['weight_grams'],
         ]);
 
-        // 2) Variants - replace all
+        
         $product->variants()->delete();
         $variants = $request->input('variants', []);
         if (is_array($variants)) {
@@ -400,7 +386,7 @@ public function destroy($id)
             }
         }
 
-        // 3) Images - replace all
+        
         $product->images()->delete();
         $images = $request->input('images', []);
         if (is_array($images)) {
@@ -418,7 +404,6 @@ public function destroy($id)
             }
         }
 
-        // 4) Attributes - updateOrCreate
         $attrs = $request->input('attrs', []);
         if (is_array($attrs)) {
             $display = 0;
@@ -439,7 +424,6 @@ public function destroy($id)
             }
         }
 
-        // 5) Tags
         $tagIds = $request->input('tag_ids', []);
         if (is_array($tagIds)) {
             $product->tags()->sync(array_values(array_unique(array_map('intval', $tagIds))));

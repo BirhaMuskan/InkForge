@@ -10,8 +10,7 @@ class HomeController extends Controller
 {
     public function index()
 {
-
-    // Featured Designers 
+ 
    $designers = User::with('shop')
     ->withCount('listings')
     ->where('role', 'designer')
@@ -35,5 +34,18 @@ class HomeController extends Controller
     });
 
     return view('home.index', compact('designers','categories'));
+}
+
+public function nav(){
+    $popularCategories = Category::where('categories.is_active', 1)
+    ->whereNull('parent_id')
+    ->withCount(['listings' => function ($query) {
+        $query->where('product_listings.is_active', 1);
+    }])
+    ->orderByDesc('listings_count')
+    ->take(10)
+    ->get();
+
+    return view('home.homeLayout', compact('popularCategories'));
 }
 }

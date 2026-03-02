@@ -32,7 +32,7 @@
       <div class="dot"></div>
     </div>
   </section>
-  <!-- ===== BEST SELLERS SLIDER (Marketplace Level) ===== -->
+
   <section class="best-sellers">
     <div class="container">
 

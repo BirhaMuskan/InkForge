@@ -35,7 +35,7 @@ class productCardsController extends Controller
                 $q->where('is_active', 1);
             });
 
-        // CATEGORY FILTER
+       
         if ($request->filled('category')) {
             $categories = is_array($request->category)
                 ? $request->category
@@ -46,19 +46,18 @@ class productCardsController extends Controller
             });
         }
 
-        // PRICE FILTER
+        
         if ($request->max_price) {
             $listings->where('final_price', '<=', $request->max_price);
         }
 
-        // COLOR FILTER
         if ($request->color) {
             $listings->whereHas('product.variants', function ($q) use ($request) {
                 $q->where('color_hex', $request->color);
             });
         }
 
-        // SORTING
+       
         match ($request->sort) {
             'low'  => $listings->orderBy('final_price', 'asc'),
             'high' => $listings->orderBy('final_price', 'desc'),
@@ -72,7 +71,7 @@ class productCardsController extends Controller
         ]);
     }
 
-    // Make sure this is INSIDE the controller class
+ 
     private function getColors()
     {
         return ProductVariant::whereNotNull('color_hex')
@@ -80,9 +79,7 @@ class productCardsController extends Controller
             ->pluck('color_hex');
     }
 
-      /**
-     * Show a single product detail page
-     */
+      
 public function show($slug)
 {
     $product = Product::where('slug', $slug)
@@ -90,7 +87,7 @@ public function show($slug)
             'category',
             'variants',
             'images',
-            'listings.design', // IMPORTANT
+            'listings.design',
             'reviews',
             'tags'
         ])

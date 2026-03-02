@@ -45,15 +45,11 @@
   </nav>
 
   <nav class="category-bar">
-    <a href="#">Explore</a>
-    <a href="#">Clothing</a>
-    <a href="#">Create Your Own</a>
-    <a href="#" class="new">New</a>
-    <a href="#">Stickers</a>
-    <a href="#">Phone Cases</a>
-    <a href="#">Wall Art</a>
-    <a href="#">Home & Living</a>
-    <a href="#">Kids & Babies</a>
-    <a href="#">Accessories</a>
-    <a href="#">Gifts</a>
-  </nav>
+    <a href="{{ route('cards') }}">Explore</a>
+
+    @foreach($popularCategories as $category)
+        <a href="{{ route('cards', ['category[]' => $category->id]) }}">
+            {{ $category->name }}
+        </a>
+    @endforeach
+</nav>

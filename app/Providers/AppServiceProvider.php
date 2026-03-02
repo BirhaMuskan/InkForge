@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\View;
+use App\Models\Category;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,10 +23,28 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        $this->configureDefaults();
-    }
+
+  
+
+public function boot()
+{
+    View::composer('home.homeLayout', function ($view) {
+
+        $popularCategories = cache()->remember('popular_categories', 3600, function () {
+            return Category::where('categories.is_active', 1)
+                ->whereNull('parent_id')
+                ->withCount(['listings' => function ($query) {
+                    $query->where('product_listings.is_active', 1);
+                }])
+                ->orderByDesc('listings_count')
+                ->take(10)
+                ->get();
+        });
+
+        $view->with('popularCategories', $popularCategories);
+    });
+}
+    
 
     protected function configureDefaults(): void
     {

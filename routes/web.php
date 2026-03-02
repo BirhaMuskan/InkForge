@@ -71,3 +71,5 @@ Route::get('/cards', [productCardsController::class, 'cards'])
 
 
         Route::get('/product/{slug}', [ProductCardsController::class, 'show'])->name('product.show');
+
+    

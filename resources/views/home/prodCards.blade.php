@@ -118,7 +118,7 @@
       : 'https://via.placeholder.com/300';
     @endphp
 
-    <a href="{{ route('product.show', $product->slug) }}" class="card">
+    <a href="{{ route('product.show', $product->slug) }}" style="text-decoration:none;" class="card">
         <img src="{{ $image }}" alt="{{ $listing->seo_title ?? $product->name }}">
 
         <h4>{{ $listing->seo_title ?? $product->name }}</h4>
